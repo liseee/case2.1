@@ -16,6 +16,14 @@ import java.io.Serializable;
 @NamedQuery(name = "User.findAll", query = "SELECT e FROM User e")
 @NamedQuery(name = "User.findUser", query = "SELECT e FROM User e WHERE "
         + "e.firstName = :firstName AND e.email = :email AND e.id = :id")
+@NamedQuery(
+        name = "User.search",
+        query = "select c from User c " +
+                "INNER JOIN Role r ON c.role=r " +
+                "where c.firstName LIKE :q " +
+                "OR c.lastName LIKE :q " +
+                "OR c.email LIKE :q " +
+                "OR r.name LIKE :q")
 public class User implements Serializable {
 
     @Id

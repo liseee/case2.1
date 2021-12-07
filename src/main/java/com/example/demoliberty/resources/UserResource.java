@@ -24,6 +24,7 @@ import javax.ws.rs.core.UriInfo;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -62,11 +63,11 @@ public class UserResource {
 //        return finalArray.build();
 //    }
 
-    @Authorized
-    @GET
-    public List<User> getAllUsers(){
-        return userDao.readAllUsers();
-    }
+//    @Authorized
+//    @GET
+//    public List<User> getAllUsers(){
+//        return userDao.readAllUsers();
+//    }
 
     @Authorized
     @GET @Path("{id}")
@@ -80,6 +81,20 @@ public class UserResource {
     public User put(@PathParam("id") Long id, User u) {
         u.setId(id);
         return userDao.update(id, u);
+    }
+
+//    @Authorized
+//    @GET
+//    public Collection<User> getAll(@QueryParam("q") String q) {
+////        return q == null ? userDao.getAll() : userDao.get(q);
+//        return userDao.getAll();
+//    }
+
+    @Authorized
+    @GET
+    public List<User> getAllUsers(@QueryParam("q") String q){
+        return q == null ? userDao.getAll() : userDao.get(q);
+//        return userDao.readAllUsers();
     }
 
     // create employee rest api
