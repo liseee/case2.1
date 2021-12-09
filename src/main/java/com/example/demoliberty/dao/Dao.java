@@ -35,6 +35,19 @@ public abstract class Dao<E, I>  {
         return em.merge(e);
     }
 
+    public E add(E c) {
+        em.persist(c);
+        return c;
+    }
+
+    public boolean remove(Long id) {
+        E e = em.find(E(), id);
+        if (e == null) return false;
+
+        em.remove(e);
+        return true;
+    }
+
     private String typeSimple() { return E().getSimpleName(); }
 
     private Class<E> E() {

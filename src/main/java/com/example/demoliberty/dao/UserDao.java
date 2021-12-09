@@ -61,14 +61,14 @@ public class UserDao extends Dao<User, Long>{
     //                                  Deze methode wordt in een databasetransactie op de server uitgevoerd.
     //                                  Als er al een transactie loopt, gebruikt de server die, anders maakt hij een nieuwe transactie aan.
 //    @TransactionAttribute(REQUIRED)
-    public User add(User c) {
+    public User addold(User c) {
 //        em.getTransaction().begin();
         em.persist(c);
 //        em.getTransaction().commit();
         return c;
     }
 
-    public void remove(Long id) {
+    public void removeold(Long id) {
 //        if (getUser(id).isPresent()){
 //            em.remove(getUser(id));
 //        }else {
