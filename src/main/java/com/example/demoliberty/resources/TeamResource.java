@@ -90,6 +90,20 @@ public class TeamResource {
 
     @Authorized
     @GET
+    @Path("{id}")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllTeamsFromUser(@PathParam("id") Long id) throws JsonProcessingException {
+
+        List<Team> teams = teamDao.findByUser_id(id);
+        final String itemJson = new ObjectMapper().writeValueAsString(teams);
+        return itemJson;
+
+//        return userDao.readAllUsers();
+    }
+
+    @Authorized
+    @GET
     @Path("team/{id}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)

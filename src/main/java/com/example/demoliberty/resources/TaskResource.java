@@ -2,9 +2,12 @@ package com.example.demoliberty.resources;
 
 import com.example.demoliberty.dao.RoleDao;
 import com.example.demoliberty.dao.TaskDao;
+import com.example.demoliberty.dao.TeamDao;
 import com.example.demoliberty.dao.UserDao;
 import com.example.demoliberty.filters.Authorized;
+import com.example.demoliberty.models.Status;
 import com.example.demoliberty.models.Task;
+import com.example.demoliberty.models.Team;
 import com.example.demoliberty.models.User;
 import com.example.demoliberty.util.KeyGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,7 +20,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
@@ -31,6 +38,9 @@ public class TaskResource {
 
     @Inject
     private UserDao userDao;
+
+    @Inject
+    private TeamDao teamDao;
 
     @Context
     private UriInfo uriInfo;
@@ -124,6 +134,47 @@ public class TaskResource {
         Task newTask =  taskDao.update(id, t);
         final String itemJson = new ObjectMapper().writeValueAsString(newTask);
         return itemJson;
+    }
+
+    @Authorized
+    @POST
+    @Transactional
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public String createTask(Task task) throws JsonProcessingException, ParseException {
+
+        List<User> newUsers = new ArrayList<>();
+        for (User user : task.getUsers()){
+            User u = userDao.getById(user.getId());
+            newUsers.add(u);
+        }
+
+        Team teamteset = task.getTeam();
+        Long teamId = teamteset.getId();
+
+        if (teamId.equals(0)){
+            task.setTeam(null);
+        } else {
+            task.setTeam(teamDao.getById(task.getTeam().getId()));
+        }
+
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        Date targetDate = task.getTargetDate();
+        Date todayWithZeroTime = formatter.parse(formatter.format(targetDate));
+        task.setTargetDate(todayWithZeroTime);
+
+        task.setStatus(Status.TODO);
+
+        Task newTask =  taskDao.add(task);
+        final String itemJson = new ObjectMapper().writeValueAsString(newTask);
+        return itemJson;
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Transactional
+    @Authorized
+    public void delete(@PathParam("id") long id){
+        taskDao.remove(id);
     }
 
 //    @Authorized

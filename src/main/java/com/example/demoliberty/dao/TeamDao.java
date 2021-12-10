@@ -20,6 +20,11 @@ public class TeamDao extends Dao<Team, Long>{
         this.em = em;
     }
 
+    public List<Team> findByUser_id(long userId){
+        TypedQuery<Team> query = em.createQuery("SELECT e FROM Team e JOIN e.users u WHERE (u.id) = :id ", Team.class);
+        query.setParameter("id", userId);
+        return query.getResultList();
+    }
 //    public List<Task> findByUser_idOrderByDateAsc(long userId){
 //        TypedQuery<Task> query = em.createQuery("SELECT e FROM Task e JOIN e.users u WHERE (u.id) = :id ORDER BY e.targetDate asc ", Task.class);
 //        query.setParameter("id", userId);
