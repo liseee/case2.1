@@ -91,8 +91,28 @@ public class TaskResource {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllTasks(@PathParam("id") Long id, @QueryParam("q") String q) throws JsonProcessingException {
+        List<Task> tasks = new ArrayList<>();
 
-        List<Task> tasks = q == null ? taskDao.findByUser_idOrderByDateAsc(id) : taskDao.get(q);
+        if (q != null){
+            switch (q){
+                case "1":
+                    System.out.println("1");
+                    tasks = taskDao.findByUser_idOrderByDateAsc(id);
+                    break;
+                case "2":
+                    System.out.println("2");
+                    tasks = taskDao.getPersonalTasks(id);
+                    break;
+                case "3":
+                    System.out.println("3");
+                    tasks = taskDao.getTeamTasks(id);
+                    break;
+            }
+        } else {
+            tasks = taskDao.findByUser_idOrderByDateAsc(id);
+        }
+
+//        List<Task> tasks = q == null ? taskDao.findByUser_idOrderByDateAsc(id) : taskDao.get(q);
         final String itemJson = new ObjectMapper().writeValueAsString(tasks);
         return itemJson;
 

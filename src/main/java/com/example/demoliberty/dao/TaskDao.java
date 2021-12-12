@@ -29,6 +29,17 @@ public class TaskDao extends Dao<Task, Long>{
         return query.getResultList();
     }
 
+    public List<Task> getPersonalTasks(long userId){
+        TypedQuery<Task> query = em.createQuery("SELECT e FROM Task e JOIN e.users u WHERE (u.id) = :id AND e.team IS NULL ORDER BY e.targetDate asc ", Task.class);
+        query.setParameter("id", userId);
+        return query.getResultList();
+    }
+
+    public List<Task> getTeamTasks(long userId){
+        TypedQuery<Task> query = em.createQuery("SELECT e FROM Task e JOIN e.users u WHERE (u.id) = :id AND e.team IS NOT NULL ORDER BY e.targetDate asc ", Task.class);
+        query.setParameter("id", userId);
+        return query.getResultList();
+    }
 //    public void createEvent(User user) {
 //        em.persist(user);
 //    }
