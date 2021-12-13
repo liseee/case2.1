@@ -1,5 +1,6 @@
 package com.example.demoliberty.dao;
 
+import com.example.demoliberty.models.Task;
 import com.example.demoliberty.models.User;
 
 import javax.ejb.TransactionAttribute;
@@ -100,5 +101,17 @@ public class UserDao extends Dao<User, Long>{
         if (user == null) throw new SecurityException("Invalid user/password");
 
         return user;
+    }
+
+    public boolean findByEmail(String userEmail){
+        TypedQuery<User> findByEmail = em.createQuery("SELECT u FROM User u WHERE UPPER(u.email) = :email", User.class);
+        findByEmail.setParameter("email", userEmail);
+        return findByEmail.getResultList().size() == 1;
+    }
+
+    public List<User> getAllExcept(long userId){
+        TypedQuery<User> query = em.createQuery("SELECT e FROM User e WHERE (e.id) <> :id", User.class);
+        query.setParameter("id", userId);
+        return query.getResultList();
     }
 }

@@ -40,7 +40,8 @@ public class Task implements Serializable {
 
     @Temporal(TemporalType.DATE)
 //    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date targetDate;
 
     @Enumerated(EnumType.STRING)

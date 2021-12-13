@@ -177,6 +177,9 @@ public class TaskResource {
             task.setTeam(teamDao.getById(task.getTeam().getId()));
         }
 
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+//        Date date = sdf.parse(String.valueOf(task.getTargetDate()));
+//        task.setTargetDate(date);
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         Date targetDate = task.getTargetDate();
         Date todayWithZeroTime = formatter.parse(formatter.format(targetDate));

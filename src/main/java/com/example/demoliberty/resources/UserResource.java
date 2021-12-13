@@ -5,6 +5,7 @@ import com.example.demoliberty.dao.UserDao;
 import com.example.demoliberty.filters.Authorized;
 import com.example.demoliberty.models.User;
 import com.example.demoliberty.util.KeyGenerator;
+import com.example.demoliberty.util.PasswordEncoder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -46,6 +47,10 @@ public class UserResource {
 
     @Inject
     private KeyGenerator keyGenerator;
+
+    @Inject
+    private PasswordEncoder passwordEncoder;
+
     /**
      * This method returns the existing/stored events in Json format
      */
@@ -97,6 +102,14 @@ public class UserResource {
 //        return userDao.readAllUsers();
     }
 
+    @Authorized
+    @GET
+    @Path("/manager/{id}")
+    public List<User> getAllUsersManager(@PathParam("id") long id){
+        return userDao.getAllExcept(id);
+//        return userDao.readAllUsers();
+    }
+
     // create employee rest api
     @POST
     @Transactional
@@ -105,6 +118,7 @@ public class UserResource {
         return userDao.add(user);
     }
 
+    @Authorized
     @DELETE
     @Path("{id}")
     @Transactional
@@ -141,11 +155,26 @@ public class UserResource {
 //    }
 
     @POST
+    @Path("/authenticate/register")
+    @Transactional
+    public User register(User u) {
+
+        u.setRole(roleDao.findByName("USER"));
+        u.setPassword(passwordEncoder.encrypt(u.getPassword()));
+
+        if (userDao.findByEmail(u.getEmail())){
+            throw new NotAuthorizedException("Email van " + u + " bestaat al.");
+        } else {
+            return userDao.add(u);
+        }
+    }
+
+    @POST
     @Path("/authenticate")
     public User login(User u) {
         try {
             String email = u.getEmail();
-            String password = u.getPassword();
+            String password = passwordEncoder.encrypt(u.getPassword());
 
             User user = userDao.authenticate(email, password);
             String jwt = issueToken(email);
