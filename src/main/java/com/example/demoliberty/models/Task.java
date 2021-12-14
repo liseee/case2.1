@@ -47,7 +47,7 @@ public class Task implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 //    @JsonbTransient
     @JoinColumn(name="team_id")
     //@JsonManagedReference

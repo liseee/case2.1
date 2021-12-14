@@ -17,9 +17,10 @@ import java.util.List;
 @Entity
 @Table(name = "Team")
 @NamedQuery(name = "Team.findAll", query = "SELECT e FROM Team e")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+// Mocht dit problemen opleveren weer toevoegen, weggehaald voor task tabel
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id")
 public class Team {
 
     @Id
@@ -38,7 +39,7 @@ public class Team {
     @JoinColumn(name="MANAGER_ID", nullable = false)
     private User manager;
 
-    @OneToMany(mappedBy="team", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
+    @OneToMany(mappedBy="team", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     //@JsonBackReference
 //    @JsonbTransient
     private List<Task> tasks;

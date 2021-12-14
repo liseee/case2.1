@@ -1,6 +1,5 @@
 package com.example.demoliberty.resources;
 
-import com.example.demoliberty.dao.RoleDao;
 import com.example.demoliberty.dao.TaskDao;
 import com.example.demoliberty.dao.TeamDao;
 import com.example.demoliberty.dao.UserDao;
@@ -11,6 +10,7 @@ import com.example.demoliberty.models.Team;
 import com.example.demoliberty.models.User;
 import com.example.demoliberty.util.KeyGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.enterprise.context.RequestScoped;
@@ -20,6 +20,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -117,6 +118,52 @@ public class TaskResource {
         return itemJson;
 
 //        return userDao.readAllUsers();
+    }
+
+    @GET
+    @Path("test/{id}")
+    @Transactional
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllTasksList(@PathParam("id") Long id, @QueryParam("q") String q) throws IOException {
+//        List<Task> tasks = new ArrayList<>();
+//
+//        if (q != null){
+//            switch (q){
+//                case "1":
+//                    System.out.println("1");
+//                    tasks = taskDao.findByUser_idOrderByDateAsc(id);
+//                    break;
+//                case "2":
+//                    System.out.println("2");
+//                    tasks = taskDao.getPersonalTasks(id);
+//                    break;
+//                case "3":
+//                    System.out.println("3");
+//                    tasks = taskDao.getTeamTasks(id);
+//                    break;
+//            }
+//        } else {
+//            tasks = taskDao.findByUser_idOrderByDateAsc(id);
+//        }
+//
+        List<Task> tasks = taskDao.findByUser_idOrderByDateAsc(id);
+
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.findAndRegisterModules();
+//        final String iets =  objectMapper.readValue(String.valueOf(tasks), new TypeReference<List<Task>>() {
+//        });
+
+
+        final String itemJson = new ObjectMapper().writeValueAsString(tasks);
+        return itemJson;
+//
+//        return String.valueOf(tasks);
+
+
+//
+////        return userDao.readAllUsers();
+
     }
 
     @Authorized
