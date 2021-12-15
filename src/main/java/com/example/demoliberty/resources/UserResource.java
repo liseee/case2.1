@@ -51,29 +51,6 @@ public class UserResource {
     @Inject
     private PasswordEncoder passwordEncoder;
 
-    /**
-     * This method returns the existing/stored events in Json format
-     */
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Transactional
-//    public JsonArray getUsers() {
-//        JsonObjectBuilder builder = Json.createObjectBuilder();
-//        JsonArrayBuilder finalArray = Json.createArrayBuilder();
-//        for (User user : userDao.readAllUsers()) {
-////            builder.add("firstName", user.getFirstName()).add("lastName", user.getLastName()).add("email", user.getEmail()).add("id", user.getId()).add("role", (JsonObjectBuilder) user.getRole());
-//            builder.add("firstName", user.getFirstName()).add("lastName", user.getLastName()).add("email", user.getEmail()).add("id", user.getId()).add("role", user.getRole().getName());
-//            finalArray.add(builder.build());
-//        }
-//        return finalArray.build();
-//    }
-
-//    @Authorized
-//    @GET
-//    public List<User> getAllUsers(){
-//        return userDao.readAllUsers();
-//    }
-
     @Authorized
     @GET @Path("{id}")
     public User get(@PathParam("id") Long id) {
@@ -88,18 +65,11 @@ public class UserResource {
         return userDao.update(id, u);
     }
 
-//    @Authorized
-//    @GET
-//    public Collection<User> getAll(@QueryParam("q") String q) {
-////        return q == null ? userDao.getAll() : userDao.get(q);
-//        return userDao.getAll();
-//    }
 
     @Authorized
     @GET
     public List<User> getAllUsers(@QueryParam("q") String q){
         return q == null ? userDao.getAll() : userDao.get(q);
-//        return userDao.readAllUsers();
     }
 
     @Authorized
@@ -107,13 +77,12 @@ public class UserResource {
     @Path("/manager/{id}")
     public List<User> getAllUsersManager(@PathParam("id") long id){
         return userDao.getAllExcept(id);
-//        return userDao.readAllUsers();
     }
 
-    // create employee rest api
     @POST
     @Transactional
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(APPLICATION_JSON)
     public User createUser(User user) {
         return userDao.add(user);
     }
@@ -125,34 +94,6 @@ public class UserResource {
     public void delete(@PathParam("id") long id){
         userDao.remove(id);
     }
-
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-////    @Produces(MediaType.APPLICATION_JSON)
-//    @Transactional
-//    public Response add(User input) {
-//        JsonObjectBuilder builder = Json.createObjectBuilder();
-//
-//        try {
-//
-//            input.setRole(roleDao.findByName("USER"));
-//            userDao.add(input);
-//            builder.add("firstName", input.getFirstName()).add("lastName", input.getLastName()).add("email", input.getEmail()).add("role", input.getRole().getName());
-//
-//            return Response
-//                    .status(Response.Status.OK)
-//                    .entity(builder.build())
-//                    .type(MediaType.APPLICATION_JSON)
-//                    .build();
-//        }catch (Exception e) {
-//            String message = "Something is incorrect" + e;
-//            return Response
-//                    .status(Response.Status.BAD_REQUEST)
-//                    .entity(message)
-//                    .type(MediaType.APPLICATION_JSON)
-//                    .build();
-//        }
-//    }
 
     @POST
     @Path("/authenticate/register")
@@ -204,127 +145,4 @@ public class UserResource {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-//    @POST
-//    @Path("/authenticate")
-////    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Response authUser(User input) {
-//        JsonObjectBuilder builder = Json.createObjectBuilder();
-//        JsonArrayBuilder finalArray = Json.createArrayBuilder();
-//
-//        try {
-//            User loggedUser = userDao.currentUser(input.getEmail());
-//
-//            if (loggedUser.getPassword().equals(input.getPassword())){
-//
-//                builder.add("firstName", loggedUser.getFirstName()).add("lastName", loggedUser.getLastName()).add("email", loggedUser.getEmail()).add("id", loggedUser.getId()).add("role", loggedUser.getRole().getName()).add("token", "fake-jwt-token");
-////                finalArray.add(builder.build());
-//                return Response
-//                        .status(Response.Status.OK)
-//                        .entity(builder.build())
-//                        .type(MediaType.APPLICATION_JSON)
-//                        .build();
-//
-//            }else {
-//                throw new Exception();
-//            }
-//
-//        } catch (Exception e) {
-//            String message = "Username or password is incorrect";
-//            return Response
-//                    .status(Response.Status.BAD_REQUEST)
-//                    .entity(message)
-//                    .type(MediaType.APPLICATION_JSON)
-//                    .build();
-//
-//        }
-//
-//    }
-
-
-//    @POST
-//    @Path("/authenticatee")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Response authUserr(User input) {
-//
-//        try {
-//            User loggedUser = userDao.currentUser(input.getEmail());
-//
-//            if (loggedUser.getPassword().equals(input.getPassword())){
-//
-//                String message = "{\"email\":\""+loggedUser.getEmail()+"\",\"role\":\""+loggedUser.getRole().getName()+"\",\"token\":\"fake-jwt-token\"}";
-//                return Response
-//                        .status(Response.Status.OK)
-//                        .entity(message)
-//                        .type(MediaType.APPLICATION_JSON)
-//                        .build();
-//
-//            }else {
-//                throw new Exception();
-//            }
-//
-//        } catch (Exception e) {
-//            String message = "Username or password is incorrect";
-//            return Response
-//                    .status(Response.Status.BAD_REQUEST)
-//                    .entity(message)
-//                    .build();
-//        }
-//
-//    }
-//
-//    @POST
-//    @Path("/authenticatetest")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public JsonArray authUserTets(User input) {
-//        JsonObjectBuilder builder = Json.createObjectBuilder();
-//        JsonArrayBuilder finalArray = Json.createArrayBuilder();
-//
-//        try {
-//            User loggedUser = userDao.currentUser(input.getEmail());
-//
-//            if (loggedUser.getPassword().equals(input.getPassword())){
-//
-//                builder.add("firstName", loggedUser.getFirstName()).add("lastName", loggedUser.getLastName()).add("email", loggedUser.getEmail()).add("id", loggedUser.getId()).add("role", loggedUser.getRole().getName()).add("token", "fake-jwt-token");
-//                finalArray.add(builder.build());
-//                return finalArray.build();
-//
-//            }else {
-//                throw new Exception();
-//            }
-//
-//        } catch (Exception e) {
-//            builder.add("email", input.getEmail()).add("password", input.getPassword());
-//            finalArray.add(builder.build());
-//            return finalArray.build();
-//
-////                    System.out.println("Ongeldige combinatie van username en password, probeer het opnieuw");
-////                System.out.println("\nOngeldige combinatie van username en password");
-//        }
-//
-//
-//    }
-
-//    @POST
-//    @Path("/authenticate")
-////    @Produces(HttpResponse)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public JsonArray authUser(User input) {
-//
-//        try {
-//            User loggedUser = userDao.currentUser(input.getEmail());
-//
-//            if (loggedUser.getPassword().equals(input.getPassword())){
-//
-//            }else {
-//                throw new Exception();
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Ongeldige combinatie van username en password, probeer het opnieuw");
-////                System.out.println("\nOngeldige combinatie van username en password");
-//        }
-//
-//        return of
-//    }
 }

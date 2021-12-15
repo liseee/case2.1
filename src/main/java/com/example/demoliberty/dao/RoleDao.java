@@ -1,6 +1,7 @@
 package com.example.demoliberty.dao;
 
 import com.example.demoliberty.models.Role;
+import com.example.demoliberty.models.Task;
 import com.example.demoliberty.models.User;
 
 import javax.enterprise.context.RequestScoped;
@@ -10,7 +11,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @RequestScoped
-public class RoleDao {
+public class RoleDao extends Dao<Role, Long> {
 
     @PersistenceContext
     private EntityManager em;

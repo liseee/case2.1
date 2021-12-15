@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://jboss.org/schema/arquillian"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+    <container qualifier="wlp" default="true">
+        <configuration>
+            <!-- for managed -->
+            <property name="wlpHome">F:\Java\OpenLiberty\wlp</property>
+            <property name="httpPort">9080</property>
+
+            <property name="serverStartTimeout">60</property>
+            <property name="appDeployTimeout">60</property>
+            <property name="appUndeployTimeout">60</property>
+
+            <!-- for remote -->
+            <!--
+                <property name="serverName">defaultServer</property>
+                <property name="httpPort">9080</property>
+                <property name="httpsPort">9443</property>
+                <property name="hostName">localhost</property>
+                <property name="username">admin</property>
+                <property name="password">admin</property>
+            -->
+        </configuration>
+    </container>
+
+</arquillian>

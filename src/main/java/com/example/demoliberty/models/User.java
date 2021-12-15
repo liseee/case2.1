@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 @XmlRootElement
 @Entity
 @Table(name = "User")

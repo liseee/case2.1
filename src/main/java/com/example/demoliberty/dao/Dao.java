@@ -1,13 +1,10 @@
 package com.example.demoliberty.dao;
 
-import org.dom4j.tree.AbstractEntity;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.BadRequestException;
 import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
 import java.util.List;
 
 public abstract class Dao<E, I>  {
