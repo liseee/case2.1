@@ -35,7 +35,6 @@ public class Task implements Serializable {
     private String taskDesc;
 
     @Temporal(TemporalType.DATE)
-//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 //    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date targetDate;
@@ -43,10 +42,8 @@ public class Task implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-//    @JsonbTransient
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="team_id")
-    //@JsonManagedReference
     @JsonIgnoreProperties(value = {"user.id", "tasks", "teamDesc", "manager" })
     private Team team;
 

@@ -11,21 +11,15 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -65,8 +59,7 @@ public class UserResource {
         return userDao.update(id, u);
     }
 
-
-    @Authorized
+//    @Authorized
     @GET
     public List<User> getAllUsers(@QueryParam("q") String q){
         return q == null ? userDao.getAll() : userDao.get(q);
@@ -98,6 +91,8 @@ public class UserResource {
     @POST
     @Path("/authenticate/register")
     @Transactional
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
     public User register(User u) {
 
         u.setRole(roleDao.findByName("USER"));
@@ -112,6 +107,8 @@ public class UserResource {
 
     @POST
     @Path("/authenticate")
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
     public User login(User u) {
         try {
             String email = u.getEmail();

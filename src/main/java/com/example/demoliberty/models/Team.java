@@ -34,19 +34,13 @@ public class Team {
     private String teamDesc;
 
     @ManyToOne
-    //@JsonManagedReference
     @JoinColumn(name="MANAGER_ID", nullable = false)
     private User manager;
 
-    @OneToMany(mappedBy="team", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY)
-    //@JsonBackReference
-//    @JsonbTransient
+    @OneToMany(mappedBy="team", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
     private List<Task> tasks;
 
-    //    @ManyToMany(mappedBy = "teams")
-//    List<User> users;
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-   // @JsonIgnore
     @JsonIgnoreProperties(value = {"email", "password", "token", "role" })
     @JoinTable(
             name = "teams_users",

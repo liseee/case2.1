@@ -1,20 +1,17 @@
 package com.example.demoliberty.dao;
 
-import com.example.demoliberty.models.Task;
 import com.example.demoliberty.models.User;
 
-import javax.ejb.TransactionAttribute;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Optional;
 
-import static com.example.demoliberty.util.Responses.throwBadRequest;
-import static javax.ejb.TransactionAttributeType.REQUIRED;
-
-@RequestScoped
+@Singleton
+@Startup
 public class UserDao extends Dao<User, Long>{
 
     @PersistenceContext

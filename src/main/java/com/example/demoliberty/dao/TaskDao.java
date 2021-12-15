@@ -1,16 +1,12 @@
 package com.example.demoliberty.dao;
 
 import com.example.demoliberty.models.Task;
-import com.example.demoliberty.models.User;
 
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Optional;
-
-import static com.example.demoliberty.util.Responses.throwBadRequest;
 
 @RequestScoped
 public class TaskDao extends Dao<Task, Long>{

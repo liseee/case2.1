@@ -31,10 +31,8 @@ public class User implements Serializable {
     @Column
     private long id;
 
-//    @Column(name = "first_name")
     private String firstName;
 
-//    @Column(name = "last_name")
     private String lastName;
 
     @Column(unique = true)
@@ -53,8 +51,4 @@ public class User implements Serializable {
     public User(String firstName, String lastName, String email, String password) {
     }
 
-//    @Override
-//    public String toString() {
-//        return "User{" + "id=" + id + ", name=" + name + ", email=" + email + '}';
-//    }
 }

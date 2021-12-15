@@ -39,9 +39,6 @@ public class TeamResource {
     @Context
     private UriInfo uriInfo;
 
-    @Inject
-    private KeyGenerator keyGenerator;
-
     @Authorized
     @GET
     @Path("{id}")
